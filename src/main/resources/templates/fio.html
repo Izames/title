@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ФИО</title>
+</head>
+<body>
+<form action="/fio-get" method="post">
+    <input type="text" name="token" required placeholder="Токен">
+    <button type="submit">Получить</button>
+</form>
+<h1>добавить ФИО</h1>
+<form action="/fio-create" method="post">
+    <input type="text" name="name" placeholder="Имя" required>
+    <input type="text" name="surname" placeholder="Фамилия" required>
+    <input type="text" name="lastname" placeholder="Отчество" required>
+    <input type="text" placeholder="token" name="token">
+    <button type="submit"> создать</button>
+</form>
+<th:block th:if="${fios}!=null">
+    <ul>
+        <th:block th:each="fio :${fios}">
+            <li>
+                <p th:text="${fio.getSurname()} + ' ' + ${fio.getName()} + ' ' + ${fio.getLastname()}"></p>
+                <form action="/fio-update" method="post">
+                    <input type="hidden" name="ID" th:value="${fio.ID}">
+                    <input type="text" name="name" placeholder="Имя" required>
+                    <input type="text" name="surname" placeholder="Фамилия" required>
+                    <input type="text" name="lastname" placeholder="Отчество" required>
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> обновить</button>
+                </form>
+                <form action="/fio-delete" method="post">
+                    <input type="hidden" name="ID" th:value="${fio.ID}">
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> удалить</button>
+
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>

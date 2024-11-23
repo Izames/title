@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/title-get" method="post">
+    <input type="text" name="token" required placeholder="Токен">
+    <button type="submit">Получить</button>
+</form>
+<h1>добавить title</h1>
+<form action="/title-create" method="post">
+    <input type="text" name="name" placeholder="название" required>
+    <input type="text" placeholder="token" name="token">
+    <button type="submit"> создать</button>
+</form>
+<th:block th:if="${titles}!=null">
+    <ul>
+        <th:block th:each="title :${titles}">
+            <li>
+                <p th:text="${title.getName()}"></p>
+                <form action="/title-update" method="post">
+                    <input type="hidden" name="ID" th:value="${title.ID}">
+                    <input type="text" name="name" placeholder="название" required>
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> обновить</button>
+                </form>
+                <form action="/title-delete" method="post">
+                    <input type="hidden" name="ID" th:value="${title.ID}">
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> удалить</button>
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Аниме</title>
+</head>
+<body>
+    <form action="anime-get" method="post">
+        <input type="text" name="token" required placeholder="Токен">
+        <button type="submit">Получить</button>
+    </form>
+    <h1>добавить аниме</h1>
+    <form action="anime-create" method="post">
+        <input type="text" name="name" placeholder="название" required>
+        <input type="number" name="episodes" placeholder="эпизоды" required>
+        <input type="number" name="seasons" placeholder="сезоны" required>
+        <select name="titleID">
+            <div th:each="title : ${titles}">
+                <option th:text="${title.name}" th:value="${title.ID}"></option>
+            </div>
+        </select>
+        <input type="text" placeholder="token" name="token">
+        <button type="submit"> создать</button>
+    </form>
+    <th:block th:if="${animes}!=null">
+        <ul>
+            <th:block th:each="anime :${animes}">
+                <li>
+                    <p th:text="${anime.getName()} + ' количество серий: ' + ${anime.getEpisodes()} + ' количество сезонов: ' + ${anime.getSeasons()} + ' от тайтла: ' + ${anime.getTitleName()}"></p>
+                    <form action="/anime-update" method="post">
+                        <input type="hidden" name="ID" th:value="${anime.ID}">
+                        <input type="text" name="name" placeholder="название" required>
+                        <input type="number" name="episodes" placeholder="эпизоды" required>
+                        <input type="number" name="seasons" placeholder="сезоны" required>
+                        <select name="titleID">
+                            <div th:each="title : ${titles}">
+                                <option th:text="${title.name}" th:value="${title.ID}"></option>
+                            </div>
+                        </select>
+                        <input type="text" placeholder="token" name="token">
+                        <button type="submit"> обновить</button>
+                    </form>
+                    <form action="/anime-delete" method="post">
+                        <input type="hidden" name="ID" th:value="${anime.ID}">
+                        <input type="text" placeholder="token" name="token">
+                        <button type="submit"> удалить</button>
+
+                    </form>
+                </li>
+            </th:block>
+        </ul>
+    </th:block>
+</body>
+</html>

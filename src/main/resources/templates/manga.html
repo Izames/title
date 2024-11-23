@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Манга</title>
+</head>
+<body>
+<form action="/manga-get" method="post">
+    <input type="text" name="token" required placeholder="Токен">
+    <button type="submit">Получить</button>
+</form>
+<h1>добавить мангу</h1>
+<form action="/manga-create" method="post">
+    <input type="text" name="name" placeholder="название" required>
+    <input type="number" name="chapters" placeholder="глав" required>
+    <select name="titleID">
+        <div th:each="title : ${titles}">
+            <option th:text="${title.name}" th:value="${title.ID}"></option>
+        </div>
+    </select>
+    <input type="text" placeholder="token" name="token">
+    <button type="submit"> создать</button>
+</form>
+<th:block th:if="${mangas}!=null">
+    <ul>
+        <th:block th:each="manga :${mangas}">
+            <li>
+                <p th:text="${manga.getName()} + ' количество глав: ' + ${manga.getChapters()} + ' от тайтла: ' + ${manga.getTitleName()}"></p>
+                <form action="/manga-update" method="post">
+                    <input type="hidden" name="ID" th:value="${manga.ID}">
+                    <input type="text" name="name" placeholder="название" required>
+                    <input type="number" name="chapters" placeholder="глав" required>
+                    <select name="titleID">
+                        <div th:each="title : ${titles}">
+                            <option th:text="${title.name}" th:value="${title.ID}"></option>
+                        </div>
+                    </select>
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> обновить</button>
+                </form>
+                <form action="/manga-delete" method="post">
+                    <input type="hidden" name="ID" th:value="${manga.ID}">
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> удалить</button>
+
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>

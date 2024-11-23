@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторы</title>
+</head>
+<body>
+<form action="/author-get" method="post">
+    <input type="text" name="token" required placeholder="Токен">
+    <button type="submit">Получить</button>
+</form>
+<h1>добавить автора</h1>
+<form action="/author-create" method="post">
+    <input type="number" name="age" placeholder="возраст" required>
+    <input type="text" name="nickname" placeholder="никнейм" required>
+    <select name="titleID">
+        <div th:each="title : ${titles}">
+            <option th:text="${title.name}" th:value="${title.ID}"></option>
+        </div>
+    </select>
+    <select name="fioId">
+        <div th:each="fio : ${fios}">
+            <option th:text="${fio.getSurname()}" th:value="${fio.ID}"></option>
+        </div>
+    </select>
+    <input type="text" placeholder="token" name="token">
+    <button type="submit"> создать</button>
+</form>
+<th:block th:if="${authors}!=null">
+    <ul>
+        <th:block th:each="author :${authors}">
+            <li>
+                <p th:text="' псевдоним: ' + ${author.getNickname()} + ' ФИО: ' + ${author.getFio()} + ' автор: ' + ${author.getTitleName()} + ' возраст: ' + ${author.getAge()}"></p>
+                <form action="/author-update" method="post">
+                    <input type="hidden" name="ID" th:value="${author.ID}">
+                    <input type="number" name="age" placeholder="возраст" required>
+                    <input type="text" name="nickname" placeholder="никнейм" required>
+                    <select name="titleID">
+                        <div th:each="title : ${titles}">
+                            <option th:text="${title.name}" th:value="${title.ID}"></option>
+                        </div>
+                    </select>
+                    <select name="fioId">
+                        <div th:each="fio : ${fios}">
+                            <option th:text="${fio.getSurname()}" th:value="${fio.ID}"></option>
+                        </div>
+                    </select>
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> обновить</button>
+                </form>
+                <form action="/author-delete" method="post">
+                    <input type="hidden" name="ID" th:value="${author.ID}">
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> удалить</button>
+
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>

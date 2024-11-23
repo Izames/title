@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+</head>
+<body>
+<form action="/statistic-get" method="post">
+    <input type="text" name="token" required placeholder="Токен">
+    <button type="submit">Получить</button>
+</form>
+<h1>добавить statistic</h1>
+<form action="/statistic-create" method="post">
+    <input type="number" name="rating" placeholder="рейтинг" required>
+    <input type="text" name="ReleaseDate" placeholder="дата выпуска" required>
+    <select name="title_id">
+        <div th:each="title : ${titles}">
+            <option th:text="${title.name}" th:value="${title.ID}"></option>
+        </div>
+    </select>
+    <input type="text" placeholder="token" name="token">
+    <button type="submit"> создать</button>
+</form>
+<th:block th:if="${statistics}!=null">
+    <ul>
+        <th:block th:each="statistic :${statistics}">
+            <li>
+                <p th:text="${statistic.getTitleName()} + ' рейтинг: ' + ${statistic.getRating()} + ' дата выпуска: ' + ${statistic.getReleaseDate()}"></p>
+                <form action="/statistic-update" method="post">
+                    <input type="hidden" name="ID" th:value="${statistic.ID}">
+                    <input type="number" name="rating" placeholder="рейтинг" required>
+                    <input type="text" name="ReleaseDate" placeholder="дата выпуска" required>
+                    <select name="title_id">
+                        <div th:each="title : ${titles}">
+                            <option th:text="${title.name}" th:value="${title.ID}"></option>
+                        </div>
+                    </select>
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> обновить</button>
+                </form>
+                <form action="/statistic-delete" method="post">
+                    <input type="hidden" name="ID" th:value="${statistic.ID}">
+                    <input type="text" placeholder="token" name="token">
+                    <button type="submit"> удалить</button>
+
+                </form>
+            </li>
+        </th:block>
+    </ul>
+</th:block>
+</body>
+</html>
